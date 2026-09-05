@@ -15,3 +15,6 @@
 - [x] Implement performant parallax with reduced-motion support.
 - [x] Validate scrolling behavior at desktop and mobile sizes.
 - [ ] Save and deliver the parallax revision.
+- [ ] Add supplied LinkedIn, WhatsApp, GitHub, email, and phone links in their specific UI locations.
+- [ ] Validate exact link targets, phone/WhatsApp actions, and responsive contact presentation.
+- [ ] Save and deliver the contact-link revision.

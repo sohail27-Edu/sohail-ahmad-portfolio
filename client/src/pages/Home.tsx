@@ -13,14 +13,14 @@ import {
   Compass,
   ExternalLink,
   Github,
-  Globe2,
   HeartHandshake,
-  Instagram,
   Linkedin,
   Mail,
   Menu,
+  MessageCircle,
   MonitorSmartphone,
   Palette,
+  Phone,
   Search,
   Send,
   Settings2,
@@ -32,7 +32,15 @@ const heroImage = "/manus-storage/sohail-hero-editorial_baae03a2.jpg";
 const studyImage = "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=82";
 const portfolioImage = "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=82";
 const monogramImage = "/manus-storage/sa-monogram_52adf45a.png";
-const emailAddress = "Sohail271198@gmail.com";
+const emailAddress = "sohail271198@gmail.com";
+const phoneNumber = "03299194158";
+const whatsappUrl = "https://wa.me/qr/ZVI4XEY2QCNQC1";
+
+const socialLinks = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/sohail-ahmad-79a726371?utm_source=share_via&utm_content=profile&utm_medium=member_android", icon: Linkedin },
+  { label: "GitHub", href: "https://github.com/sohail27-edu", icon: Github },
+  { label: "WhatsApp", href: whatsappUrl, icon: MessageCircle },
+];
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -220,6 +228,9 @@ export default function Home() {
             ))}
           </nav>
 
+          <div className="header-socials" aria-label="Social links">
+            {socialLinks.map(({ label, href, icon: Icon }) => <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}><Icon size={15} strokeWidth={1.8} /></a>)}
+          </div>
           <a className="header-cta" href="#contact">Contact Me <ArrowUpRight size={15} /></a>
           <button className="menu-toggle" type="button" aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen((value) => !value)}>
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -230,6 +241,9 @@ export default function Home() {
             {navItems.map((item) => (
               <a key={item.href} href={item.href} onClick={closeMenu}>{item.label}<ArrowUpRight size={16} /></a>
             ))}
+            <div className="mobile-socials" aria-label="Social links">
+              {socialLinks.map(({ label, href, icon: Icon }) => <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}>{label}<Icon size={16} /></a>)}
+            </div>
           </div>
         </div>
       </header>
@@ -374,7 +388,8 @@ export default function Home() {
               <p>Tell me what needs to work. I&apos;ll help make it clear.</p>
               <div className="contact-details">
                 <a href={`mailto:${emailAddress}`}><span className="detail-icon"><Mail size={17} /></span><span><small>Email Me</small>{emailAddress}</span></a>
-                <a href={`mailto:${emailAddress}?subject=Callback request`}><span className="detail-icon"><Send size={17} /></span><span><small>Call Me</small>Email for a callback</span></a>
+                <a href={`tel:${phoneNumber}`}><span className="detail-icon"><Phone size={17} /></span><span><small>Call Me</small>{phoneNumber}</span></a>
+                <a href={whatsappUrl} target="_blank" rel="noreferrer"><span className="detail-icon"><MessageCircle size={17} /></span><span><small>WhatsApp</small>Message me directly</span></a>
               </div>
               <div className="contact-brief"><span className="contact-brief-title">A useful first message includes</span><div><b>01</b><span>What you want the website to help with.</span></div><div><b>02</b><span>What exists already, if anything.</span></div><div><b>03</b><span>What should feel easier for your visitors.</span></div></div>
             </div>
@@ -393,7 +408,7 @@ export default function Home() {
         <div className="container footer-top">
           <div><a className="brand-lockup brand-lockup--footer" href="#top"><span className="brand-mark"><span className="brand-mark-fallback">SA</span><img src={monogramImage} alt="" onError={(event) => { event.currentTarget.style.display = "none"; }} /></span><span className="brand-name">Sohail Ahmad</span></a><p>Simple. On purpose.</p></div>
           <div className="footer-nav"><span>Navigate</span>{navItems.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</div>
-          <div className="footer-note"><span>Available for thoughtful web projects.</span><a href={`mailto:${emailAddress}`}>{emailAddress} <ArrowUpRight size={15} /></a></div>
+          <div className="footer-note"><span>Available for thoughtful web projects.</span><a href={`mailto:${emailAddress}`}>{emailAddress} <ArrowUpRight size={15} /></a><a href={`tel:${phoneNumber}`}>{phoneNumber} <Phone size={14} /></a><div className="footer-socials" aria-label="Social links">{socialLinks.map(({ label, href, icon: Icon }) => <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}><Icon size={15} /></a>)}</div></div>
         </div>
         <div className="container footer-bottom"><span>© 2026 Sohail Ahmad. All rights reserved.</span><span>Built with clarity.</span></div>
       </footer>
