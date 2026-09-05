@@ -52,10 +52,10 @@ const skills = [
 ];
 
 const services = [
-  { number: "01", title: "Website Development", text: "Professional websites for businesses and individuals, built around what visitors need to do." },
-  { number: "02", title: "Website Redesign", text: "Modernizing outdated websites and improving their design, structure, and clarity." },
-  { number: "03", title: "Responsive Design", text: "Websites optimized for mobile, tablet, and desktop so the experience stays consistent." },
-  { number: "04", title: "Basic SEO", text: "Improving website structure and visibility in search engines through practical foundations." },
+  { number: "01", title: "Website Development", text: "Professional websites for businesses and individuals, built around what visitors need to do.", fit: "For a new online presence" },
+  { number: "02", title: "Website Redesign", text: "Modernizing outdated websites and improving their design, structure, and clarity.", fit: "For a site that feels stuck" },
+  { number: "03", title: "Responsive Design", text: "Websites optimized for mobile, tablet, and desktop so the experience stays consistent.", fit: "For every screen size" },
+  { number: "04", title: "Basic SEO", text: "Improving website structure and visibility in search engines through practical foundations.", fit: "For a stronger foundation" },
 ];
 
 const principles = [
@@ -73,6 +73,8 @@ const projects = [
     title: "Study in Türkiye Guide",
     description: "An educational website providing guidance for students interested in studying in Türkiye.",
     accent: "copper",
+    tags: ["Guidance", "Structure", "Content"],
+    scope: "A clear path for prospective students.",
   },
   {
     id: "portfolio",
@@ -81,6 +83,8 @@ const projects = [
     title: "Personal Portfolio Website",
     description: "A fully responsive, modern web portfolio designed to highlight front-end development skills and digital services.",
     accent: "navy",
+    tags: ["Responsive", "Visual hierarchy", "Digital presence"],
+    scope: "A focused home for skills and services.",
   },
 ];
 
@@ -118,7 +122,7 @@ function SectionIntro({ eyebrow, title, body }: { eyebrow: string; title: string
 
 function ProjectCard({ project, onOpen }: { project: (typeof projects)[number]; onOpen: (project: (typeof projects)[number]) => void }) {
   return (
-    <article className={`project-card project-card--${project.accent} reveal`}>
+        <article className={`project-card project-card--${project.accent} reveal`}>
       <div className="project-image-wrap">
         <img src={project.image} alt={`${project.title} project preview`} className="project-image" onError={(event) => { event.currentTarget.style.display = "none"; }} />
         <span className="project-index">0{projects.indexOf(project) + 1}</span>
@@ -127,6 +131,8 @@ function ProjectCard({ project, onOpen }: { project: (typeof projects)[number]; 
         <span className="project-category">{project.category}</span>
         <h3>{project.title}</h3>
         <p>{project.description}</p>
+        <div className="project-scope"><span>Focus</span><strong>{project.scope}</strong></div>
+        <div className="project-tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
         <button className="text-link" onClick={() => onOpen(project)} aria-label={`View details for ${project.title}`}>
           View Project <ArrowUpRight size={16} strokeWidth={1.8} />
         </button>
@@ -216,7 +222,9 @@ export default function Home() {
             <div className="about-content reveal">
               <p className="lead-copy">I build clean, responsive and user-friendly websites for businesses, organizations and individuals.</p>
               <p>My goal is to combine attractive design with practical functionality to create websites that actually help people and businesses.</p>
+              <div className="about-callout"><span>01</span><p>Start with the message, then make every click feel obvious.</p></div>
               <a className="text-link text-link--dark" href="#contact">Let&apos;s talk about your project <ArrowUpRight size={16} /></a>
+              <div className="about-facts"><div><span>Approach</span><strong>Clear structure</strong></div><div><span>Priority</span><strong>Useful details</strong></div><div><span>Standard</span><strong>Easy to use</strong></div></div>
             </div>
           </div>
           <div className="container about-summary-grid">
@@ -234,7 +242,15 @@ export default function Home() {
         <section id="skills" className="skills-section section-pad section-tint">
           <div className="container">
             <SectionIntro eyebrow="What I work with" title="My Skills" body="The tools and practices I use to turn a clear idea into a dependable web experience." />
-            <div className="skills-grid">
+            <div className="skills-layout">
+              <aside className="skills-feature reveal">
+                <span className="feature-number">01 / 06</span>
+                <div className="feature-icon"><Code2 size={27} strokeWidth={1.5} /></div>
+                <h3>The basics,<br /><em>done well.</em></h3>
+                <p>Good web work starts with structure, then earns trust through the small details.</p>
+                <div className="feature-list"><span><b>01</b> Structure</span><span><b>02</b> Style</span><span><b>03</b> Behavior</span></div>
+              </aside>
+              <div className="skills-grid">
               {skills.map(({ icon: Icon, title, text }, index) => (
                 <article className="skill-card reveal" key={title} style={{ "--delay": `${index * 45}ms` } as CSSProperties}>
                   <div className="card-icon"><Icon size={21} strokeWidth={1.7} /></div>
@@ -242,6 +258,7 @@ export default function Home() {
                   <p>{text}</p>
                 </article>
               ))}
+              </div>
             </div>
           </div>
         </section>
@@ -250,7 +267,7 @@ export default function Home() {
           <div className="container">
             <div className="section-heading-row reveal">
               <SectionIntro eyebrow="My recent work" title="Projects" />
-              <p className="section-aside">A small selection of work shaped around clarity, usefulness, and a better experience on every screen.</p>
+              <div className="section-aside-block"><p className="section-aside">A small selection of work shaped around clarity, usefulness, and a better experience on every screen.</p><span className="section-counter">02 selected pieces / 2026</span></div>
             </div>
             <div className="projects-grid">
               {projects.map((project) => <ProjectCard key={project.id} project={project} onOpen={setActiveProject} />)}
@@ -265,12 +282,13 @@ export default function Home() {
               <h2>Useful work,<br /><em>without the noise.</em></h2>
               <p>I focus on the parts of a website that make a real difference: a clear message, an easy path, and a solid foundation.</p>
               <a className="button button-light" href="#contact">Start a conversation <ArrowUpRight size={17} /></a>
+              <div className="service-signature"><span>Working principle</span><strong>Make the next step clear.</strong></div>
             </div>
             <div className="services-list">
               {services.map((service) => (
                 <article className="service-row reveal" key={service.number}>
                   <span className="service-number">{service.number}</span>
-                  <div><h3>{service.title}</h3><p>{service.text}</p></div>
+                  <div><h3>{service.title}</h3><p>{service.text}</p><span className="service-fit">{service.fit}</span></div>
                   <ChevronRight className="service-arrow" size={20} />
                 </article>
               ))}
@@ -315,6 +333,7 @@ export default function Home() {
                 <a href={`mailto:${emailAddress}`}><span className="detail-icon"><Mail size={17} /></span><span><small>Email Me</small>{emailAddress}</span></a>
                 <a href={`mailto:${emailAddress}?subject=Callback request`}><span className="detail-icon"><Send size={17} /></span><span><small>Call Me</small>Email for a callback</span></a>
               </div>
+              <div className="contact-brief"><span className="contact-brief-title">A useful first message includes</span><div><b>01</b><span>What you want the website to help with.</span></div><div><b>02</b><span>What exists already, if anything.</span></div><div><b>03</b><span>What should feel easier for your visitors.</span></div></div>
             </div>
             <form className="contact-form reveal" onSubmit={handleSubmit}>
               <div className="form-row"><label>Name<input name="name" type="text" placeholder="Your name" required /></label><label>Email<input name="email" type="email" placeholder="you@example.com" required /></label></div>
