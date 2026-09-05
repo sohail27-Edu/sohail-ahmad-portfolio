@@ -11,3 +11,7 @@
 - [x] Fix the root cause with a robust content-rendering fallback.
 - [x] Re-validate desktop and mobile visibility before delivery.
 - [ ] Save and deliver the repaired website.
+- [x] Define restrained parallax targets and motion limits.
+- [x] Implement performant parallax with reduced-motion support.
+- [x] Validate scrolling behavior at desktop and mobile sizes.
+- [ ] Save and deliver the parallax revision.

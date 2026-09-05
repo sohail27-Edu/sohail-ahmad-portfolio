@@ -140,7 +140,7 @@ button:not(:disabled), a[href] { cursor: pointer; }
   .scroll-line { width: 36px; height: 1px; background: var(--accent); }
   .hero-visual { position: relative; padding: 18px 22px 40px 0; }
   .hero-art-frame { position: relative; min-height: 490px; overflow: hidden; background: #d9cec0; }
-  .hero-art { width: 100%; height: 100%; min-height: 490px; display: block; object-fit: cover; }
+  .hero-art { width: 100%; height: 100%; min-height: 490px; display: block; object-fit: cover; transform: translate3d(0, var(--parallax-shift, 0px), 0) scale(1.045); transform-origin: center; will-change: transform; transition: transform 120ms linear; }
   .hero-stamp { position: absolute; left: -19px; bottom: 24px; display: grid; grid-template-columns: 44px 1fr; align-items: center; gap: 11px; padding: 13px 16px; background: var(--accent); color: #fffdf7; }
   .hero-stamp span { font-family: "DM Serif Display", Georgia, serif; font-size: 32px; line-height: 1; }
   .hero-stamp small { border-left: 1px solid rgba(255, 253, 247, 0.55); padding-left: 11px; font-size: 8px; font-weight: 800; letter-spacing: 0.14em; line-height: 1.4; }
@@ -201,8 +201,8 @@ button:not(:disabled), a[href] { cursor: pointer; }
   .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; margin-top: 62px; }
   .project-card { min-width: 0; background: #fffdf7; }
   .project-image-wrap { position: relative; height: 350px; overflow: hidden; background: #d9cec0; }
-  .project-image { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 450ms var(--ease-out); }
-  .project-card:hover .project-image { transform: scale(1.035); }
+  .project-image { width: 100%; height: 100%; display: block; object-fit: cover; transform: translate3d(0, var(--parallax-shift, 0px), 0) scale(1.05); transform-origin: center; will-change: transform; transition: transform 450ms var(--ease-out); }
+  .project-card:hover .project-image { transform: translate3d(0, var(--parallax-shift, 0px), 0) scale(1.08); }
   .project-index { position: absolute; top: 17px; left: 17px; display: grid; place-items: center; width: 37px; height: 37px; background: var(--foreground); color: #fffdf7; font-size: 10px; font-weight: 800; }
   .project-card--copper .project-index { background: var(--accent); }
   .project-card-body { padding: 28px 30px 31px; border: 1px solid var(--border); border-top: 0; }
@@ -289,6 +289,7 @@ button:not(:disabled), a[href] { cursor: pointer; }
   .project-modal-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 25px; background: rgba(17, 24, 32, 0.65); backdrop-filter: blur(5px); }
   .project-modal { position: relative; display: grid; grid-template-columns: 0.95fr 1.05fr; width: min(100%, 820px); background: #fffdf7; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.24); animation: modal-in 220ms var(--ease-out); }
   .project-modal > img { width: 100%; height: 100%; min-height: 380px; object-fit: cover; }
+  .modal-project-image { transform: none; will-change: auto; }
   .modal-content { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 44px; }
   .modal-content h2 { margin: 12px 0 14px; font-family: "DM Serif Display", Georgia, serif; font-size: 45px; font-weight: 400; line-height: 1; }
   .modal-content p { margin: 0; color: #68757a; font-size: 14px; line-height: 1.8; }
@@ -304,6 +305,9 @@ button:not(:disabled), a[href] { cursor: pointer; }
     .reveal.is-visible { animation: reveal-in 650ms var(--ease-out) both; animation-delay: var(--delay, 0ms); }
     .hero-copy.reveal, .hero-visual.reveal { animation: hero-in 700ms var(--ease-out) both; }
     .hero-visual.reveal { animation-delay: 80ms; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-art, .project-image { transform: none !important; transition: none; will-change: auto; }
   }
   @keyframes reveal-in { from { opacity: 0; transform: translateY(17px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes hero-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }

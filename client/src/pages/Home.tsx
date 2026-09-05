@@ -124,7 +124,7 @@ function ProjectCard({ project, onOpen }: { project: (typeof projects)[number]; 
   return (
         <article className={`project-card project-card--${project.accent} reveal`}>
       <div className="project-image-wrap">
-        <img src={project.image} alt={`${project.title} project preview`} className="project-image" onError={(event) => { event.currentTarget.style.display = "none"; }} />
+        <img src={project.image} alt={`${project.title} project preview`} className="project-image" data-parallax="project" data-parallax-intensity="12" onError={(event) => { event.currentTarget.style.display = "none"; }} />
         <span className="project-index">0{projects.indexOf(project) + 1}</span>
       </div>
       <div className="project-card-body">
@@ -152,6 +152,41 @@ export default function Home() {
       item.style.setProperty("--delay", `${Math.min(index * 28, 320)}ms`);
       item.classList.add("is-visible");
     });
+  }, []);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reducedMotion.matches) return;
+
+    const layers = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
+    if (!layers.length) return;
+
+    let frame = 0;
+    const updateParallax = () => {
+      const viewportHeight = window.innerHeight;
+      layers.forEach((layer) => {
+        const rect = layer.getBoundingClientRect();
+        if (rect.bottom < -80 || rect.top > viewportHeight + 80) return;
+        const intensity = Number(layer.dataset.parallaxIntensity || 18);
+        const progress = (viewportHeight / 2 - (rect.top + rect.height / 2)) / viewportHeight;
+        const shift = Math.max(-intensity, Math.min(intensity, progress * intensity));
+        layer.style.setProperty("--parallax-shift", `${shift.toFixed(2)}px`);
+      });
+      frame = 0;
+    };
+
+    const requestUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateParallax);
+    };
+
+    updateParallax();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   const closeMenu = () => setMenuOpen(false);
@@ -215,7 +250,7 @@ export default function Home() {
             </div>
             <div className="hero-visual reveal is-visible">
               <div className="hero-art-frame">
-                <img src={heroImage} alt="Warm editorial workspace with a notebook, laptop and copper ruler" className="hero-art" />
+                <img src={heroImage} alt="Warm editorial workspace with a notebook, laptop and copper ruler" className="hero-art" data-parallax="hero" data-parallax-intensity="15" />
                 <div className="hero-stamp"><span>SA</span><small>WEB<br />DEVELOPER</small></div>
               </div>
               <div className="hero-note"><span>01</span><p>Useful websites, built<br />with care.</p></div>
@@ -367,7 +402,7 @@ export default function Home() {
         <div className="project-modal-backdrop" role="presentation" onMouseDown={() => setActiveProject(null)}>
           <div className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-dialog-title" onMouseDown={(event) => event.stopPropagation()}>
             <button className="modal-close" type="button" aria-label="Close project details" onClick={() => setActiveProject(null)}><X size={19} /></button>
-            <img src={activeProject.image} alt={`${activeProject.title} preview`} onError={(event) => { event.currentTarget.style.display = "none"; }} />
+            <img src={activeProject.image} alt={`${activeProject.title} preview`} className="modal-project-image" onError={(event) => { event.currentTarget.style.display = "none"; }} />
             <div className="modal-content"><span className="project-category">{activeProject.category}</span><h2 id="project-dialog-title">{activeProject.title}</h2><p>{activeProject.description}</p><p className="modal-note">A public project link is not configured yet. Detailed previews can be shared directly on request.</p><a className="button button-primary" href={`mailto:${emailAddress}?subject=${encodeURIComponent(`${activeProject.title} project enquiry`)}`}>Ask about this project <Mail size={16} /></a></div>
           </div>
         </div>
