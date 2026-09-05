@@ -299,11 +299,13 @@ button:not(:disabled), a[href] { cursor: pointer; }
 
   .reveal { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: no-preference) {
-    .reveal { opacity: 0; transform: translateY(17px); transition: opacity 650ms var(--ease-out), transform 650ms var(--ease-out); transition-delay: var(--delay, 0ms); }
-    .reveal.is-visible { opacity: 1; transform: none; }
+    /* Content must remain readable even if an observer or animation is unavailable. */
+    .reveal { opacity: 1; transform: none; }
+    .reveal.is-visible { animation: reveal-in 650ms var(--ease-out) both; animation-delay: var(--delay, 0ms); }
     .hero-copy.reveal, .hero-visual.reveal { animation: hero-in 700ms var(--ease-out) both; }
     .hero-visual.reveal { animation-delay: 80ms; }
   }
+  @keyframes reveal-in { from { opacity: 0; transform: translateY(17px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes hero-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes modal-in { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: none; } }
 

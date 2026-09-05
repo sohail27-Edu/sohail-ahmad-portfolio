@@ -6,4 +6,8 @@
 - [x] Add more structure and value cues to Services without inventing claims.
 - [x] Improve Contact section density and CTA clarity while preserving the safe mailto behavior.
 - [x] Validate desktop and mobile screenshots, build output, and runtime logs.
-- [ ] Save a new checkpoint and deliver the revised website.
+- [x] Save a new checkpoint and deliver the revised website.
+- [x] Inspect the live DOM and console/network logs for empty-card rendering failures.
+- [x] Fix the root cause with a robust content-rendering fallback.
+- [x] Re-validate desktop and mobile visibility before delivery.
+- [ ] Save and deliver the repaired website.

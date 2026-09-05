@@ -146,6 +146,14 @@ export default function Home() {
   const [activeProject, setActiveProject] = useState<(typeof projects)[number] | null>(null);
   const [formSent, setFormSent] = useState(false);
 
+  useEffect(() => {
+    const revealItems = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
+    revealItems.forEach((item, index) => {
+      item.style.setProperty("--delay", `${Math.min(index * 28, 320)}ms`);
+      item.classList.add("is-visible");
+    });
+  }, []);
+
   const closeMenu = () => setMenuOpen(false);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
