@@ -22,3 +22,7 @@
 - [x] Add direct-submit success and error feedback without opening an email app.
 - [x] Validate the AJAX endpoint reachability, build output, responsive behavior, and runtime logs.
 - [ ] Save and deliver the corrected FormSubmit AJAX revision.
+- [ ] Inspect GitHub authentication and local repository state.
+- [ ] Create the private `sohail-ahmad-portfolio` repository.
+- [ ] Commit and push the current portfolio code.
+- [ ] Verify the GitHub remote and repository URL.
