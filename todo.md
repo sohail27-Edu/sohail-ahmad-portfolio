@@ -42,5 +42,5 @@
 - [x] Add the Personal Portfolio Website live URL to its project card.
 - [x] Add the Study in Türkiye Guide live URL to its project card.
 - [x] Validate both project links and redeploy the portfolio.
-- [ ] Add the Frontiers College project card and supplied live URL.
-- [ ] Validate the third project link and redeploy the portfolio.
+- [x] Add the Frontiers College project card and supplied live URL.
+- [x] Validate the third project link and redeploy the portfolio.
