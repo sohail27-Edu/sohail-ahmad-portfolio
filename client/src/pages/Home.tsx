@@ -31,6 +31,7 @@ import {
 const heroImage = "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=85";
 const studyImage = "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=82";
 const portfolioImage = "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=82";
+const frontiersImage = "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=82";
 const emailAddress = "sohail271198@gmail.com";
 const phoneNumber = "03299194158";
 const whatsappUrl = "https://wa.me/qr/ZVI4XEY2QCNQC1";
@@ -96,6 +97,17 @@ const projects = [
     tags: ["Responsive", "Visual hierarchy", "Digital presence"],
     scope: "A focused home for skills and services.",
     url: "https://sohail27-edu.github.io/sohail-ahmad-portfolio/#top",
+  },
+  {
+    id: "frontiers",
+    image: frontiersImage,
+    category: "College Website",
+    title: "Frontiers College",
+    description: "A focused college website that gives prospective students a clear place to learn more and take the next step.",
+    accent: "copper",
+    tags: ["Education", "Clarity", "Responsive"],
+    scope: "A welcoming digital home for a college.",
+    url: "https://predeploy-79fe2250-frontierweb-gepkwtpo-jxymsfsxxu5esurh.manus.space/",
   },
 ];
 
