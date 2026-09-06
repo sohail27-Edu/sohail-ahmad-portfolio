@@ -38,6 +38,8 @@ const whatsappUrl = "https://wa.me/qr/ZVI4XEY2QCNQC1";
 const formSubmitAjaxEndpoint = "https://formsubmit.co/ajax/sohail271198@gmail.com";
 const formSubmitFallbackEndpoint = "https://formsubmit.co/sohail271198@gmail.com";
 
+type GithubStats = { publicRepos: number; followers: number; stars: number; status: "loading" | "ready" | "error" };
+
 const socialLinks = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/sohail-ahmad-79a726371?utm_source=share_via&utm_content=profile&utm_medium=member_android", icon: Linkedin },
   { label: "GitHub", href: "https://github.com/sohail27-edu", icon: Github },
@@ -173,6 +175,41 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeProject, setActiveProject] = useState<(typeof projects)[number] | null>(null);
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [githubStats, setGithubStats] = useState<GithubStats>({ publicRepos: 0, followers: 0, stars: 0, status: "loading" });
+  const [portfolioViews, setPortfolioViews] = useState(0);
+  const [appreciationCount, setAppreciationCount] = useState(0);
+  const [hasAppreciated, setHasAppreciated] = useState(false);
+
+  useEffect(() => {
+    const viewKey = "sohail-portfolio-view-count";
+    const appreciationKey = "sohail-portfolio-appreciation-count";
+    const appreciatedKey = "sohail-portfolio-appreciated";
+    const savedViews = Number(window.localStorage.getItem(viewKey) || "0");
+    const nextViews = Number.isFinite(savedViews) ? savedViews + 1 : 1;
+    const savedAppreciation = Number(window.localStorage.getItem(appreciationKey) || "0");
+    setPortfolioViews(nextViews);
+    setAppreciationCount(Number.isFinite(savedAppreciation) ? savedAppreciation : 0);
+    setHasAppreciated(window.localStorage.getItem(appreciatedKey) === "true");
+    window.localStorage.setItem(viewKey, String(nextViews));
+
+    Promise.all([
+      fetch("https://api.github.com/users/sohail27-edu").then((response) => {
+        if (!response.ok) throw new Error("GitHub profile unavailable");
+        return response.json() as Promise<{ public_repos: number; followers: number }>;
+      }),
+      fetch("https://api.github.com/users/sohail27-edu/repos?per_page=100&sort=updated").then((response) => {
+        if (!response.ok) throw new Error("GitHub repositories unavailable");
+        return response.json() as Promise<Array<{ stargazers_count?: number }>>;
+      }),
+    ]).then(([profile, repositories]) => {
+      setGithubStats({
+        publicRepos: profile.public_repos || 0,
+        followers: profile.followers || 0,
+        stars: repositories.reduce((total, repository) => total + (repository.stargazers_count || 0), 0),
+        status: "ready",
+      });
+    }).catch(() => setGithubStats((current) => ({ ...current, status: "error" })));
+  }, []);
 
   useEffect(() => {
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
@@ -328,6 +365,22 @@ export default function Home() {
             ].map(([number, label]) => (
               <div className="summary-item reveal" key={number}><span>{number}</span><strong>{label}</strong></div>
             ))}
+          </div>
+        </section>
+
+        <section className="stats-section section-pad section-tint" aria-labelledby="stats-title">
+          <div className="container stats-layout">
+            <div className="stats-heading reveal">
+              <span className="eyebrow">A few useful signals</span>
+              <h2 id="stats-title">Progress you<br /><em>can see.</em></h2>
+              <p>Live GitHub activity sits alongside local counters for this browser. Nothing here is presented as a verified client result.</p>
+            </div>
+            <div className="stats-grid">
+              <article className="stat-card reveal"><span>GitHub repositories</span><strong>{githubStats.status === "loading" ? "—" : githubStats.publicRepos}</strong><small>{githubStats.stars} stars · {githubStats.followers} followers</small><a href="https://github.com/sohail27-edu" target="_blank" rel="noreferrer">View GitHub <ExternalLink size={14} /></a></article>
+              <article className="stat-card reveal"><span>Portfolio views</span><strong>{portfolioViews}</strong><small>Starting count on this browser</small></article>
+              <article className="stat-card stat-card--action reveal"><span>Appreciation</span><strong>{appreciationCount}</strong><small>Stored on this device</small><button type="button" onClick={() => { if (hasAppreciated) return; const next = appreciationCount + 1; setAppreciationCount(next); setHasAppreciated(true); window.localStorage.setItem("sohail-portfolio-appreciation-count", String(next)); window.localStorage.setItem("sohail-portfolio-appreciated", "true"); }} disabled={hasAppreciated} aria-pressed={hasAppreciated}><HeartHandshake size={15} /> {hasAppreciated ? "Thank you" : "Appreciate this work"}</button></article>
+              <article className="stat-card reveal"><span>Client satisfaction target</span><strong>99%</strong><small>Aspirational standard, not a verified result</small></article>
+            </div>
           </div>
         </section>
 
