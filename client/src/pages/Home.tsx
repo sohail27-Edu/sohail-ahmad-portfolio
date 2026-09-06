@@ -152,7 +152,7 @@ function ProjectCard({ project, onOpen }: { project: (typeof projects)[number]; 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeProject, setActiveProject] = useState<(typeof projects)[number] | null>(null);
-  const [formSent, setFormSent] = useState(false);
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
   useEffect(() => {
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
@@ -199,18 +199,30 @@ export default function Home() {
 
   const closeMenu = () => setMenuOpen(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    const name = String(data.get("name") || "").trim();
-    const email = String(data.get("email") || "").trim();
     const subject = String(data.get("subject") || "Portfolio enquiry").trim();
-    const message = String(data.get("message") || "").trim();
-    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
-    window.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setFormSent(true);
-    form.reset();
+    const senderEmail = String(data.get("email") || "").trim();
+    data.append("_subject", subject);
+    data.append("_replyto", senderEmail);
+    data.append("_captcha", "false");
+    data.append("_template", "table");
+    setFormStatus("sending");
+
+    try {
+      const response = await fetch("https://formsubmit.co/el/gijoyu", {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: data,
+      });
+      if (!response.ok) throw new Error("Form submission failed");
+      setFormStatus("success");
+      form.reset();
+    } catch {
+      setFormStatus("error");
+    }
   };
 
   return (
@@ -393,12 +405,12 @@ export default function Home() {
               </div>
               <div className="contact-brief"><span className="contact-brief-title">A useful first message includes</span><div><b>01</b><span>What you want the website to help with.</span></div><div><b>02</b><span>What exists already, if anything.</span></div><div><b>03</b><span>What should feel easier for your visitors.</span></div></div>
             </div>
-            <form className="contact-form reveal" onSubmit={handleSubmit}>
+            <form className="contact-form reveal" action="https://formsubmit.co/el/gijoyu" method="POST" onSubmit={handleSubmit}>
               <div className="form-row"><label>Name<input name="name" type="text" placeholder="Your name" required /></label><label>Email<input name="email" type="email" placeholder="you@example.com" required /></label></div>
               <label>Subject<input name="subject" type="text" placeholder="What can I help with?" required /></label>
               <label>Message<textarea name="message" rows={5} placeholder="Tell me a little about your project..." required /></label>
-              <button className="button button-primary" type="submit">Send Message <ArrowUpRight size={17} /></button>
-              <p className="form-note" role="status">{formSent ? <><Check size={15} /> Your email app should open with the message ready to send.</> : <>This form opens your email app — no message is sent without your confirmation.</>}</p>
+              <button className="button button-primary" type="submit" disabled={formStatus === "sending"}>{formStatus === "sending" ? <>Sending Message <Send size={16} /></> : <>Send Message <ArrowUpRight size={17} /></>}</button>
+              <p className={`form-note ${formStatus === "error" ? "form-note--error" : ""}`} role="status" aria-live="polite">{formStatus === "success" ? <><Check size={15} /> Message sent successfully. I&apos;ll get back to you soon.</> : formStatus === "error" ? <>Something went wrong. Please try again or email me directly at {emailAddress}.</> : <>Your message is sent securely without opening an email app.</>}</p>
             </form>
           </div>
         </section>

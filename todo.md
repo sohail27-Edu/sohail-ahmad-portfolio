@@ -18,3 +18,7 @@
 - [ ] Add supplied LinkedIn, WhatsApp, GitHub, email, and phone links in their specific UI locations.
 - [ ] Validate exact link targets, phone/WhatsApp actions, and responsive contact presentation.
 - [ ] Save and deliver the contact-link revision.
+- [x] Connect the contact form to the supplied FormSubmit endpoint.
+- [x] Add direct-submit success and error feedback without opening an email app.
+- [x] Validate form configuration and responsive behavior.
+- [ ] Save and deliver the FormSubmit revision.

@@ -277,6 +277,7 @@ button:not(:disabled), a[href] { cursor: pointer; }
   .contact-form .button { align-self: flex-start; margin-top: 4px; }
   .form-note { display: flex; align-items: flex-start; gap: 7px; min-height: 18px; margin: 0; color: #748087; font-size: 11px; line-height: 1.55; }
   .form-note svg { flex: 0 0 auto; margin-top: 1px; color: var(--accent); }
+  .form-note--error { color: #a34f3d; }
 
   .site-footer { background: #111820; color: #fffdf7; padding: 62px 0 25px; }
   .footer-top { display: grid; grid-template-columns: 1fr 0.65fr 1fr; gap: 70px; padding-bottom: 65px; }
