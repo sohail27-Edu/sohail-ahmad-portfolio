@@ -35,6 +35,8 @@ const monogramImage = "/manus-storage/sa-monogram_52adf45a.png";
 const emailAddress = "sohail271198@gmail.com";
 const phoneNumber = "03299194158";
 const whatsappUrl = "https://wa.me/qr/ZVI4XEY2QCNQC1";
+const formSubmitAjaxEndpoint = "https://formsubmit.co/ajax/sohail271198@gmail.com";
+const formSubmitFallbackEndpoint = "https://formsubmit.co/sohail271198@gmail.com";
 
 const socialLinks = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/sohail-ahmad-79a726371?utm_source=share_via&utm_content=profile&utm_medium=member_android", icon: Linkedin },
@@ -205,17 +207,20 @@ export default function Home() {
     const data = new FormData(form);
     const subject = String(data.get("subject") || "Portfolio enquiry").trim();
     const senderEmail = String(data.get("email") || "").trim();
-    data.append("_subject", subject);
-    data.append("_replyto", senderEmail);
-    data.append("_captcha", "false");
-    data.append("_template", "table");
+    const payload = {
+      ...Object.fromEntries(data.entries()),
+      _subject: subject,
+      _replyto: senderEmail,
+      _template: "table",
+      _url: window.location.href,
+    };
     setFormStatus("sending");
 
     try {
-      const response = await fetch("https://formsubmit.co/el/gijoyu", {
+      const response = await fetch(formSubmitAjaxEndpoint, {
         method: "POST",
-        headers: { Accept: "application/json" },
-        body: data,
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
       });
       if (!response.ok) throw new Error("Form submission failed");
       setFormStatus("success");
@@ -405,12 +410,12 @@ export default function Home() {
               </div>
               <div className="contact-brief"><span className="contact-brief-title">A useful first message includes</span><div><b>01</b><span>What you want the website to help with.</span></div><div><b>02</b><span>What exists already, if anything.</span></div><div><b>03</b><span>What should feel easier for your visitors.</span></div></div>
             </div>
-            <form className="contact-form reveal" action="https://formsubmit.co/el/gijoyu" method="POST" onSubmit={handleSubmit}>
+            <form className="contact-form reveal" action={formSubmitFallbackEndpoint} method="POST" onSubmit={handleSubmit}>
               <div className="form-row"><label>Name<input name="name" type="text" placeholder="Your name" required /></label><label>Email<input name="email" type="email" placeholder="you@example.com" required /></label></div>
               <label>Subject<input name="subject" type="text" placeholder="What can I help with?" required /></label>
               <label>Message<textarea name="message" rows={5} placeholder="Tell me a little about your project..." required /></label>
               <button className="button button-primary" type="submit" disabled={formStatus === "sending"}>{formStatus === "sending" ? <>Sending Message <Send size={16} /></> : <>Send Message <ArrowUpRight size={17} /></>}</button>
-              <p className={`form-note ${formStatus === "error" ? "form-note--error" : ""}`} role="status" aria-live="polite">{formStatus === "success" ? <><Check size={15} /> Message sent successfully. I&apos;ll get back to you soon.</> : formStatus === "error" ? <>Something went wrong. Please try again or email me directly at {emailAddress}.</> : <>Your message is sent securely without opening an email app.</>}</p>
+              <p className={`form-note ${formStatus === "error" ? "form-note--error" : ""}`} role="status" aria-live="polite">{formStatus === "success" ? <><Check size={15} /> Message sent successfully. I&apos;ll get back to you soon.</> : formStatus === "error" ? <>Something went wrong. Please try again or email me directly at {emailAddress}.</> : <>Your message is sent directly through the secure contact form.</>}</p>
             </form>
           </div>
         </section>

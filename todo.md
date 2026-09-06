@@ -18,7 +18,7 @@
 - [ ] Add supplied LinkedIn, WhatsApp, GitHub, email, and phone links in their specific UI locations.
 - [ ] Validate exact link targets, phone/WhatsApp actions, and responsive contact presentation.
 - [ ] Save and deliver the contact-link revision.
-- [x] Connect the contact form to the supplied FormSubmit endpoint.
+- [x] Diagnose the supplied /el endpoint behavior and connect the form to FormSubmit’s documented AJAX endpoint.
 - [x] Add direct-submit success and error feedback without opening an email app.
-- [x] Validate form configuration and responsive behavior.
-- [ ] Save and deliver the FormSubmit revision.
+- [x] Validate the AJAX endpoint reachability, build output, responsive behavior, and runtime logs.
+- [ ] Save and deliver the corrected FormSubmit AJAX revision.
