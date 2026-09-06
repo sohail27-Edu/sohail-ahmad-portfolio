@@ -37,8 +37,8 @@
 - [x] Validate the skill package and refine the guidance.
 - [x] Deliver the reusable skill package.
 - [x] Diagnose the GitHub Pages project-subpath routing failure.
-- [ ] Update client routing for `/sohail-ahmad-portfolio/`.
+- [x] Update client routing for `/sohail-ahmad-portfolio/`.
 - [x] Rebuild, push, and verify the live GitHub Pages site.
-- [ ] Add the Personal Portfolio Website live URL to its project card.
-- [ ] Add the Study in Türkiye Guide live URL to its project card.
-- [ ] Validate both project links and redeploy the portfolio.
+- [x] Add the Personal Portfolio Website live URL to its project card.
+- [x] Add the Study in Türkiye Guide live URL to its project card.
+- [x] Validate both project links and redeploy the portfolio.
