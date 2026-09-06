@@ -44,7 +44,7 @@
 - [x] Validate both project links and redeploy the portfolio.
 - [x] Add the Frontiers College project card and supplied live URL.
 - [x] Validate the third project link and redeploy the portfolio.
-- [ ] Define live GitHub metrics, starting view count, local appreciation behavior, and aspirational satisfaction wording.
-- [ ] Implement the stats section and appreciation interaction.
-- [ ] Validate the stats section and responsive layout.
+- [x] Define live GitHub metrics, starting view count, local appreciation behavior, and aspirational satisfaction wording.
+- [x] Implement the stats section and appreciation interaction.
+- [x] Validate the stats section and responsive layout.
 - [ ] Save and deliver the stats revision.
