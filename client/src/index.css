@@ -172,7 +172,9 @@ button:not(:disabled), a[href] { cursor: pointer; }
   .about-facts strong { color: var(--foreground); font-size: 12px; line-height: 1.4; }
   .text-link { display: inline-flex; align-items: center; gap: 8px; border: 0; border-bottom: 1px solid currentColor; padding: 0 0 5px; background: transparent; color: #fffdf7; font-size: 11px; font-weight: 800; text-decoration: none; transition: color 180ms ease, gap 180ms ease; }
   .text-link:hover { gap: 12px; color: var(--accent); }
-  .text-link--dark { margin-top: 16px; color: var(--foreground); }
+  .text-link--dark { color: var(--foreground); }
+  .project-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 22px; }
+  .project-actions .text-link { margin-top: 0; }
   .about-summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 90px; border-top: 1px solid var(--border); }
   .summary-item { display: flex; flex-direction: column; gap: 21px; min-height: 142px; padding: 23px 25px 0 0; border-right: 1px solid var(--border); }
   .summary-item:not(:first-child) { padding-left: 25px; }

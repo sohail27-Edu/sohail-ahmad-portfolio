@@ -84,6 +84,7 @@ const projects = [
     accent: "copper",
     tags: ["Guidance", "Structure", "Content"],
     scope: "A clear path for prospective students.",
+    url: "https://sohail27-edu.github.io/Study-in-Turkey/index.html",
   },
   {
     id: "portfolio",
@@ -94,6 +95,7 @@ const projects = [
     accent: "navy",
     tags: ["Responsive", "Visual hierarchy", "Digital presence"],
     scope: "A focused home for skills and services.",
+    url: "https://sohail27-edu.github.io/sohail-ahmad-portfolio/#top",
   },
 ];
 
@@ -142,9 +144,14 @@ function ProjectCard({ project, onOpen }: { project: (typeof projects)[number]; 
         <p>{project.description}</p>
         <div className="project-scope"><span>Focus</span><strong>{project.scope}</strong></div>
         <div className="project-tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-        <button className="text-link" onClick={() => onOpen(project)} aria-label={`View details for ${project.title}`}>
-          View Project <ArrowUpRight size={16} strokeWidth={1.8} />
-        </button>
+        <div className="project-actions">
+          <button className="text-link" onClick={() => onOpen(project)} aria-label={`View details for ${project.title}`}>
+            View Details <ArrowUpRight size={16} strokeWidth={1.8} />
+          </button>
+          <a className="text-link text-link--dark" href={project.url} target="_blank" rel="noreferrer" aria-label={`Open ${project.title} website`}>
+            Open Live Site <ExternalLink size={15} strokeWidth={1.8} />
+          </a>
+        </div>
       </div>
     </article>
   );
