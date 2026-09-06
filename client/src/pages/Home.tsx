@@ -39,6 +39,7 @@ const formSubmitAjaxEndpoint = "https://formsubmit.co/ajax/sohail271198@gmail.co
 const formSubmitFallbackEndpoint = "https://formsubmit.co/sohail271198@gmail.com";
 
 type GithubStats = { publicRepos: number; followers: number; stars: number; status: "loading" | "ready" | "error" };
+type AnimatedStats = { publicRepos: number; followers: number; stars: number; portfolioViews: number; appreciation: number; target: number };
 
 const socialLinks = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/sohail-ahmad-79a726371?utm_source=share_via&utm_content=profile&utm_medium=member_android", icon: Linkedin },
@@ -179,6 +180,10 @@ export default function Home() {
   const [portfolioViews, setPortfolioViews] = useState(0);
   const [appreciationCount, setAppreciationCount] = useState(0);
   const [hasAppreciated, setHasAppreciated] = useState(false);
+  const statsRef = useRef<HTMLElement | null>(null);
+  const [statsInView, setStatsInView] = useState(false);
+  const [statsCounted, setStatsCounted] = useState(false);
+  const [animatedStats, setAnimatedStats] = useState<AnimatedStats>({ publicRepos: 0, followers: 0, stars: 0, portfolioViews: 0, appreciation: 0, target: 0 });
 
   useEffect(() => {
     const viewKey = "sohail-portfolio-view-count";
@@ -210,6 +215,62 @@ export default function Home() {
       });
     }).catch(() => setGithubStats((current) => ({ ...current, status: "error" })));
   }, []);
+
+  useEffect(() => {
+    const node = statsRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setStatsInView(true);
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setStatsInView(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.25 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!statsInView || statsCounted || githubStats.status === "loading") return;
+    const finalStats: AnimatedStats = {
+      publicRepos: githubStats.publicRepos,
+      followers: githubStats.followers,
+      stars: githubStats.stars,
+      portfolioViews,
+      appreciation: appreciationCount,
+      target: 99,
+    };
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setAnimatedStats(finalStats);
+      setStatsCounted(true);
+      return;
+    }
+    let frame = 0;
+    const startedAt = performance.now();
+    const duration = 1050;
+    const tick = (now: number) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setAnimatedStats({
+        publicRepos: Math.round(finalStats.publicRepos * eased),
+        followers: Math.round(finalStats.followers * eased),
+        stars: Math.round(finalStats.stars * eased),
+        portfolioViews: Math.round(finalStats.portfolioViews * eased),
+        appreciation: Math.round(finalStats.appreciation * eased),
+        target: Math.round(finalStats.target * eased),
+      });
+      if (progress < 1) frame = window.requestAnimationFrame(tick);
+      else setStatsCounted(true);
+    };
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, [statsInView, statsCounted, githubStats, portfolioViews, appreciationCount]);
+
+  useEffect(() => {
+    if (statsCounted) setAnimatedStats((current) => ({ ...current, appreciation: appreciationCount }));
+  }, [appreciationCount, statsCounted]);
 
   useEffect(() => {
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
@@ -368,7 +429,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="stats-section section-pad section-tint" aria-labelledby="stats-title">
+        <section ref={statsRef} className="stats-section section-pad section-tint" aria-labelledby="stats-title">
           <div className="container stats-layout">
             <div className="stats-heading reveal">
               <span className="eyebrow">A few useful signals</span>
@@ -376,10 +437,10 @@ export default function Home() {
               <p>Live GitHub activity sits alongside local counters for this browser. Nothing here is presented as a verified client result.</p>
             </div>
             <div className="stats-grid">
-              <article className="stat-card reveal"><span>GitHub repositories</span><strong>{githubStats.status === "loading" ? "—" : githubStats.publicRepos}</strong><small>{githubStats.stars} stars · {githubStats.followers} followers</small><a href="https://github.com/sohail27-edu" target="_blank" rel="noreferrer">View GitHub <ExternalLink size={14} /></a></article>
-              <article className="stat-card reveal"><span>Portfolio views</span><strong>{portfolioViews}</strong><small>Starting count on this browser</small></article>
-              <article className="stat-card stat-card--action reveal"><span>Appreciation</span><strong>{appreciationCount}</strong><small>Stored on this device</small><button type="button" onClick={() => { if (hasAppreciated) return; const next = appreciationCount + 1; setAppreciationCount(next); setHasAppreciated(true); window.localStorage.setItem("sohail-portfolio-appreciation-count", String(next)); window.localStorage.setItem("sohail-portfolio-appreciated", "true"); }} disabled={hasAppreciated} aria-pressed={hasAppreciated}><HeartHandshake size={15} /> {hasAppreciated ? "Thank you" : "Appreciate this work"}</button></article>
-              <article className="stat-card reveal"><span>Client satisfaction target</span><strong>99%</strong><small>Aspirational standard, not a verified result</small></article>
+              <article className="stat-card reveal"><span>GitHub repositories</span><strong aria-live="polite">{githubStats.status === "loading" ? "—" : animatedStats.publicRepos}</strong><small>{githubStats.status === "loading" ? "Loading live GitHub data" : `${animatedStats.stars} stars · ${animatedStats.followers} followers`}</small><a href="https://github.com/sohail27-edu" target="_blank" rel="noreferrer">View GitHub <ExternalLink size={14} /></a></article>
+              <article className="stat-card reveal"><span>Portfolio views</span><strong aria-live="polite">{animatedStats.portfolioViews}</strong><small>Starting count on this browser</small></article>
+              <article className="stat-card stat-card--action reveal"><span>Appreciation</span><strong aria-live="polite">{animatedStats.appreciation}</strong><small>Stored on this device</small><button type="button" onClick={() => { if (hasAppreciated) return; const next = appreciationCount + 1; setAppreciationCount(next); setHasAppreciated(true); window.localStorage.setItem("sohail-portfolio-appreciation-count", String(next)); window.localStorage.setItem("sohail-portfolio-appreciated", "true"); }} disabled={hasAppreciated} aria-pressed={hasAppreciated}><HeartHandshake size={15} /> {hasAppreciated ? "Thank you" : "Appreciate this work"}</button></article>
+              <article className="stat-card reveal"><span>Client satisfaction target</span><strong aria-live="polite">{animatedStats.target}%</strong><small>Aspirational standard, not a verified result</small></article>
             </div>
           </div>
         </section>

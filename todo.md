@@ -47,4 +47,8 @@
 - [x] Define live GitHub metrics, starting view count, local appreciation behavior, and aspirational satisfaction wording.
 - [x] Implement the stats section and appreciation interaction.
 - [x] Validate the stats section and responsive layout.
-- [ ] Save and deliver the stats revision.
+- [x] Save and deliver the stats revision.
+- [ ] Define viewport-triggered count-up behavior and reduced-motion fallback.
+- [ ] Implement one-time animated stats counting.
+- [ ] Validate desktop/mobile stats animation and visibility.
+- [ ] Save and deliver the animated stats revision.
