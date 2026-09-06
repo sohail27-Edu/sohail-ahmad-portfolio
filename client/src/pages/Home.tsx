@@ -28,10 +28,9 @@ import {
   X,
 } from "lucide-react";
 
-const heroImage = "/manus-storage/sohail-hero-editorial_baae03a2.jpg";
+const heroImage = "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=85";
 const studyImage = "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=82";
 const portfolioImage = "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=82";
-const monogramImage = "/manus-storage/sa-monogram_52adf45a.png";
 const emailAddress = "sohail271198@gmail.com";
 const phoneNumber = "03299194158";
 const whatsappUrl = "https://wa.me/qr/ZVI4XEY2QCNQC1";
@@ -235,7 +234,7 @@ export default function Home() {
       <header className={`site-header ${menuOpen ? "menu-open" : ""}`}>
         <div className="container header-inner">
           <a className="brand-lockup" href="#top" onClick={closeMenu} aria-label="Sohail Ahmad, home">
-            <span className="brand-mark"><span className="brand-mark-fallback">SA</span><img src={monogramImage} alt="" onError={(event) => { event.currentTarget.style.display = "none"; }} /></span>
+            <span className="brand-mark"><span className="brand-mark-fallback">SA</span></span>
             <span className="brand-name">Sohail Ahmad</span>
           </a>
 
@@ -423,7 +422,7 @@ export default function Home() {
 
       <footer className="site-footer">
         <div className="container footer-top">
-          <div><a className="brand-lockup brand-lockup--footer" href="#top"><span className="brand-mark"><span className="brand-mark-fallback">SA</span><img src={monogramImage} alt="" onError={(event) => { event.currentTarget.style.display = "none"; }} /></span><span className="brand-name">Sohail Ahmad</span></a><p>Simple. On purpose.</p></div>
+          <div><a className="brand-lockup brand-lockup--footer" href="#top"><span className="brand-mark"><span className="brand-mark-fallback">SA</span></span><span className="brand-name">Sohail Ahmad</span></a><p>Simple. On purpose.</p></div>
           <div className="footer-nav"><span>Navigate</span>{navItems.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</div>
           <div className="footer-note"><span>Available for thoughtful web projects.</span><a href={`mailto:${emailAddress}`}>{emailAddress} <ArrowUpRight size={15} /></a><a href={`tel:${phoneNumber}`}>{phoneNumber} <Phone size={14} /></a><div className="footer-socials" aria-label="Social links">{socialLinks.map(({ label, href, icon: Icon }) => <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}><Icon size={15} /></a>)}</div></div>
         </div>

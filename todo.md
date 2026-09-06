@@ -22,7 +22,12 @@
 - [x] Add direct-submit success and error feedback without opening an email app.
 - [x] Validate the AJAX endpoint reachability, build output, responsive behavior, and runtime logs.
 - [ ] Save and deliver the corrected FormSubmit AJAX revision.
-- [ ] Inspect GitHub authentication and local repository state.
-- [ ] Create the private `sohail-ahmad-portfolio` repository.
-- [ ] Commit and push the current portfolio code.
-- [ ] Verify the GitHub remote and repository URL.
+- [x] Inspect GitHub authentication and local repository state.
+- [x] Create the private `sohail-ahmad-portfolio` repository.
+- [x] Commit and push the current portfolio code.
+- [x] Verify the GitHub remote and repository URL.
+- [ ] Inspect Vite configuration and GitHub Pages repository settings.
+- [ ] Add the `/sohail-ahmad-portfolio/` Vite base path.
+- [ ] Add a GitHub Actions Pages deployment workflow.
+- [ ] Validate the production build and workflow configuration.
+- [ ] Commit and push the GitHub Pages setup.
