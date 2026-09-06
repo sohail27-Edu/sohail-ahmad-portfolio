@@ -26,8 +26,16 @@
 - [x] Create the private `sohail-ahmad-portfolio` repository.
 - [x] Commit and push the current portfolio code.
 - [x] Verify the GitHub remote and repository URL.
-- [ ] Inspect Vite configuration and GitHub Pages repository settings.
-- [ ] Add the `/sohail-ahmad-portfolio/` Vite base path.
-- [ ] Add a GitHub Actions Pages deployment workflow.
-- [ ] Validate the production build and workflow configuration.
-- [ ] Commit and push the GitHub Pages setup.
+- [x] Inspect Vite configuration and GitHub Pages repository settings.
+- [x] Add the `/sohail-ahmad-portfolio/` Vite base path.
+- [x] Add a GitHub Actions Pages deployment workflow.
+- [x] Validate the production build and workflow configuration; the workflow is blocked only because Pages is not yet enabled in repository settings.
+- [x] Commit and push the GitHub Pages setup.
+- [x] Manually enable GitHub Pages with Source set to GitHub Actions, then rerun the workflow.
+- [x] Define the reusable portfolio-build skill scope and package structure.
+- [x] Initialize and write the skill instructions and reusable templates.
+- [x] Validate the skill package and refine the guidance.
+- [x] Deliver the reusable skill package.
+- [x] Diagnose the GitHub Pages project-subpath routing failure.
+- [ ] Update client routing for `/sohail-ahmad-portfolio/`.
+- [ ] Rebuild, push, and verify the live GitHub Pages site.
